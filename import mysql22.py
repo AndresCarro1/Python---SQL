@@ -1,13 +1,11 @@
 import mysql.connector  
+  
+#Create the connection object   
+myconn = mysql.connector.connect(host = "127.0.0.1", user = "root", password = "andres1", database='carrental', auth_plugin='mysql_native_password')  
 
-def rental():
+print(myconn)  
 
-    #Create the connection object   
-    myconn = mysql.connector.connect(host = "127.0.0.1", user = "root", password = "andres1", database='carrental', auth_plugin='mysql_native_password')  
-
-    print(myconn)  
-
-    mycursor = myconn.cursor()
+def Rental():
 
     print('1) Add new Car')
     print('2) Add new Customer')
@@ -18,13 +16,13 @@ def rental():
             option = int(input('Please select your operation.'))
             break
         except:
-            print("It must be a number, from 1 to 3")
+            print("That's not a valid option!")
 
-    if option == 1: #Adding new car to the fleet
+    if option == 1:
 
         mycursor = myconn.cursor()
 
-        plate, brand, model, color, man_year, cat_id = input("Please enter plate number, brand, model, color, manufacture year and category: ").split()
+        plate, brand, model, color, man_year, cat_id = input("Enter Car Data: ").split()
         Car = "INSERT INTO vehicles (plate, brand, model, color, man_year, cat_id) VALUES (%s, %s, %s, %s, %s, %s)"
         CarVal = (plate, brand, model, color, man_year, cat_id)
         mycursor.execute(Car, CarVal)
@@ -33,11 +31,11 @@ def rental():
 
         print(mycursor.rowcount, "record inserted.") 
     
-    if option == 2: #Adding new customer
+    if option == 2:
 
         mycursor = myconn.cursor()
 
-        first_name, last_name, mobile, ssn, email, country = input("Please enter first name, last name, mobile, ssn, email and country of origin: ").split()
+        first_name, last_name, mobile, ssn, email, country = input("Enter Customer Data: ").split()
         Cust = "INSERT INTO customers (first_name, last_name, mobile, ssn, email, country) VALUES (%s, %s, %s, %s, %s, %s)"
         CustVal = (first_name, last_name, mobile, ssn, email, country)
         mycursor.execute (Cust, CustVal)
@@ -46,7 +44,7 @@ def rental():
 
         print(mycursor.rowcount, "record inserted.")
 
-    if option == 3: #Adding new reservation
+    if option == 3:
 
         mycursor = myconn.cursor()
 
@@ -58,10 +56,6 @@ def rental():
         myconn.commit()
 
         print (mycursor.rowcount, "record inserted.")
-    elif option < 1 or option > 3:
 
-        print ("Not a valid option, please try again.")
-
-rental()
-
-
+    else:
+        print("That is not a valid option.")
