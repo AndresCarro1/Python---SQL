@@ -12,6 +12,7 @@ def rental():
 
     print('1) Create registers')
     print('2) Read registers')
+    print('3) Update registers')
        
     while True:
         try:
@@ -115,5 +116,28 @@ def rental():
         elif option < 1 or option > 3:
 
             print ("Not a valid option, please try again.")
+    
+    if option == 3:
+
+        def Updater(table_name, column_name, new_value, where_column, where_value):
+
+                mycursor = myconn.cursor()
+
+                sql = f"UPDATE {table_name} SET {column_name} = %s WHERE {where_column} = %s"
+                val = (new_value, where_value)
+
+                mycursor.execute(sql, val)
+
+                myconn.commit()
+
+                print(mycursor.rowcount, "record(s) updated.")
+   
+    table_name = input ("What do you want to modify?: ")
+    column_name = input("Which column would you like to modify?: ")
+    new_value = input("Please enter the new value: ")
+    where_column = input("Please select the parameter to identify the vehicle or person: ")
+    where_value = input("Please identify the vehicle or person: ")
+
+    Updater(table_name, column_name, new_value, where_column, where_value)
 
 rental()
