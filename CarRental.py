@@ -1,4 +1,5 @@
-import mysql.connector  
+import mysql.connector
+from tabulate import tabulate  
 
 def rental():
 
@@ -9,59 +10,123 @@ def rental():
 
     mycursor = myconn.cursor()
 
-    print('1) Add new Car')
-    print('2) Add new Customer')
-    print('3) Add new Rental')
-
+    print('1) Create registers')
+    print('2) Read registers')
+        
     while True:
         try:
             option = int(input('Please select your operation.'))
             break
         except:
-            print("It must be a number, from 1 to 3")
-
-    if option == 1: #Adding new car to the fleet
-
-        mycursor = myconn.cursor()
-
-        plate, brand, model, color, man_year, cat_id = input("Please enter plate number, brand, model, color, manufacture year and category: ").split()
-        Car = "INSERT INTO vehicles (plate, brand, model, color, man_year, cat_id) VALUES (%s, %s, %s, %s, %s, %s)"
-        CarVal = (plate, brand, model, color, man_year, cat_id)
-        mycursor.execute(Car, CarVal)
-
-        myconn.commit()
-
-        print(mycursor.rowcount, "record inserted.") 
+            print("It must be a number, from 1 to 4")
     
-    if option == 2: #Adding new customer
+    if option == 1:
 
-        mycursor = myconn.cursor()
+        print('1) Add new Car')
+        print('2) Add new Customer')
+        print('3) Add new Rental')
 
-        first_name, last_name, mobile, ssn, email, country = input("Please enter first name, last name, mobile, ssn, email and country of origin: ").split()
-        Cust = "INSERT INTO customers (first_name, last_name, mobile, ssn, email, country) VALUES (%s, %s, %s, %s, %s, %s)"
-        CustVal = (first_name, last_name, mobile, ssn, email, country)
-        mycursor.execute (Cust, CustVal)
+        while True:
+            try:
+                option = int(input('Please select your operation.'))
+                break
+            except:
+                print("It must be a number, from 1 to 3")
+
+        if option == 1: #Adding new car to the fleet
+
+            mycursor = myconn.cursor()
+
+            plate, brand, model, color, man_year, cat_id = input("Please enter plate number, brand, model, color, manufacture year and category: ").split()
+            Car = "INSERT INTO vehicles (plate, brand, model, color, man_year, cat_id) VALUES (%s, %s, %s, %s, %s, %s)"
+            CarVal = (plate, brand, model, color, man_year, cat_id)
+            mycursor.execute(Car, CarVal)
+
+            myconn.commit()
+
+            print(mycursor.rowcount, "record inserted.") 
     
-        myconn.commit()
+        if option == 2: #Adding new customer
 
-        print(mycursor.rowcount, "record inserted.")
+            mycursor = myconn.cursor()
 
-    if option == 3: #Adding new reservation
+            first_name, last_name, mobile, ssn, email, country = input("Please enter first name, last name, mobile, ssn, email and country of origin: ").split()
+            Cust = "INSERT INTO customers (first_name, last_name, mobile, ssn, email, country) VALUES (%s, %s, %s, %s, %s, %s)"
+            CustVal = (first_name, last_name, mobile, ssn, email, country)
+            mycursor.execute (Cust, CustVal)
+    
+            myconn.commit()
 
-        mycursor = myconn.cursor()
+            print(mycursor.rowcount, "record inserted.")
 
-        plate, cust_id, pick_date, return_date, amount = input("Please enter Plate Number, Customer ID, dates and amount: ").split()
-        Res = "INSERT INTO reservations (plate, cust_id, pick_date, return_date, amount) VALUES (%s, %s, %s, %s, %s)"
-        ResVal = (plate, cust_id, pick_date, return_date, amount)
-        mycursor.execute (Res, ResVal)
+        if option == 3: #Adding new reservation
 
-        myconn.commit()
+            mycursor = myconn.cursor()
 
-        print (mycursor.rowcount, "record inserted.")
-    elif option < 1 or option > 3:
+            plate, cust_id, pick_date, return_date, amount = input("Please enter Plate Number, Customer ID, dates and amount: ").split()
+            Res = "INSERT INTO reservations (plate, cust_id, pick_date, return_date, amount) VALUES (%s, %s, %s, %s, %s)"
+            ResVal = (plate, cust_id, pick_date, return_date, amount)
+            mycursor.execute (Res, ResVal)
 
-        print ("Not a valid option, please try again.")
+            myconn.commit()
+
+            print (mycursor.rowcount, "record inserted.")
+
+        elif option < 1 or option > 3:
+
+            print ("Not a valid option, please try again.")
+
+    if option == 2:
+
+        print('1) Check vehicles')
+        print('2) Check customers')
+        print('3) Check reservations')
+
+        while True:
+            try:
+                option = int(input('Please select your operation.'))
+                break
+            except:
+                print("It must be a number, from 1 to 3")
+
+        if option == 1:
+            
+            mycursor = myconn.cursor()
+            
+            CarCheck = "SELECT * FROM vehicles ORDER BY cat_id"
+            mycursor.execute(CarCheck)
+
+            myresult = mycursor.fetchall()
+
+            print(tabulate(myresult))
+        
+        if option == 2:
+
+            mycursor = myconn.cursor()
+            
+            CarCheck = "SELECT * FROM customers ORDER BY last_name"
+            mycursor.execute(CarCheck)
+
+            myresult = mycursor.fetchall()
+
+            print(tabulate(myresult))
+            
+        if option == 3:
+           
+            mycursor = myconn.cursor()
+            
+            CarCheck = "SELECT * FROM reservations ORDER BY pick_date DESC"
+            mycursor.execute(CarCheck)
+
+            myresult = mycursor.fetchall()
+
+            print(tabulate(myresult))
+
+        elif option < 1 or option > 3:
+
+            print ("Not a valid option, please try again.")
 
 rental()
+
 
 
