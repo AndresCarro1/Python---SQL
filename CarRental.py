@@ -12,7 +12,7 @@ def rental():
 
     print('1) Create registers')
     print('2) Read registers')
-        
+       
     while True:
         try:
             option = int(input('Please select your operation.'))
@@ -89,44 +89,31 @@ def rental():
             except:
                 print("It must be a number, from 1 to 3")
 
+        def Checker(x):
+            
+            CarCheck = x
+            mycursor.execute(CarCheck)
+
+            myresult = mycursor.fetchall()
+
+            print (tabulate(myresult))
+            
         if option == 1:
             
             mycursor = myconn.cursor()
             
-            CarCheck = "SELECT * FROM vehicles ORDER BY cat_id"
-            mycursor.execute(CarCheck)
+            Checker ("SELECT * FROM vehicles ORDER BY cat_id")
 
-            myresult = mycursor.fetchall()
-
-            print(tabulate(myresult))
-        
         if option == 2:
-
-            mycursor = myconn.cursor()
-            
-            CarCheck = "SELECT * FROM customers ORDER BY last_name"
-            mycursor.execute(CarCheck)
-
-            myresult = mycursor.fetchall()
-
-            print(tabulate(myresult))
+          
+            Checker ("SELECT * FROM customers ORDER BY last_name")
             
         if option == 3:
            
-            mycursor = myconn.cursor()
-            
-            CarCheck = "SELECT * FROM reservations ORDER BY pick_date DESC"
-            mycursor.execute(CarCheck)
-
-            myresult = mycursor.fetchall()
-
-            print(tabulate(myresult))
+            Checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
 
         elif option < 1 or option > 3:
 
             print ("Not a valid option, please try again.")
 
 rental()
-
-
-
