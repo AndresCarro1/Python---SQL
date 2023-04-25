@@ -2,108 +2,162 @@ import mysql.connector
 from tabulate import tabulate
 from CarRentalForm import checker
 from CarRentalForm import updater
-from CarRentalForm import new_car
+from CarRentalForm import deleter
+from CarRentalForm import new_vehicle
 from CarRentalForm import new_customer
 from CarRentalForm import new_reservation
+import storage
 
 
 def rental():
 
     #Create the connection object   
-    myconn = mysql.connector.connect(host = "127.0.0.1", user = "root", password = "andres1", database='carrental', auth_plugin='mysql_native_password')  
+    myconn = storage.connect()
 
     print(myconn)  
 
     mycursor = myconn.cursor()
 
-    print('1) Create registers')
-    print('2) Read registers')
-    print('3) Update registers')
-    print('4) Delete registers')
-       
+    print('1) Rentals')
+    print('2) Customers')
+    print('3) Vehicles')   
+    
     while True:
         try:
             option = int(input('Please select your operation.'))
             break
         except:
-            print("It must be a number, from 1 to 4")
+            print("It must be a number, from 1 to 3")
     
     if option == 1:
 
-        print('1) Add new Car')
-        print('2) Add new Customer')
-        print('3) Add new Rental')
+        print('1) Add new Rental')
+        print('2) View Rentals')
+        print('3) Modify Rental')
+        print('4) Delete Rental')
 
         while True:
             try:
                 option = int(input('Please select your operation.'))
-                if option < 1 or option > 3:
+                if option < 1 or option > 4:
                     print ("Not a valid option, please try again.")
                 else:
                     break
             except ValueError:
-                 print("It must be a number, from 1 to 3")
+                 print("It must be a number, from 1 to 4")
 
-        if option == 1: #Adding new car to the fleet
-
-            new_car()
-
-        elif option == 2: #Adding new customer
-
-            new_customer()
-
-        elif option == 3: #Adding new reservation
+        if option == 1: #Adding new reservation
 
             new_reservation()
-            
+
+        elif option == 2: #Viewing reservations
+
+            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
+
+        elif option == 3: #Modifing reservations
+
+            table_name = 'reservations'
+            column_name = input("Which column would you like to modify?: ")
+            new_value = input("Please enter the new value: ")
+            where_column = 'reservation_id'
+            where_value = input("Please enter the reservation's ID number: ")
+
+            updater(table_name, column_name, new_value, where_column, where_value)
+        
+        elif option == 4: #Deleting reservations
+
+            table_namex = 'reservations'
+            where_columnx = 'reservation_id'
+            del_value = input ("Please enter the reservation's ID number: ")
+
+            deleter(table_namex, where_columnx, del_value)
+
+         
     elif option == 2:
 
-        print('1) Check vehicles')
-        print('2) Check customers')
-        print('3) Check reservations')
+        print('1) Add new Customer')
+        print('2) View Customers')
+        print('3) Modify Customer')
+        print('4) Delete Customer')
 
         while True:
             try:
                 option = int(input('Please select your operation.'))
                 break
             except:
-                print("It must be a number, from 1 to 3")
+                print("It must be a number, from 1 to 4")
             
         if option == 1:
             
-            checker ("SELECT * FROM vehicles ORDER BY cat_id")
+            new_customer()
 
-        if option == 2:
+        elif option == 2:
           
             checker ("SELECT * FROM customers ORDER BY last_name")
             
-        if option == 3:
+        elif option == 3:
+
+            table_name = 'customers'
+            column_name = input("Which column would you like to modify?: ")
+            new_value = input("Please enter the new value: ")
+            where_column = 'cust_id'
+            where_value = input("Please enter the customers's ID number: ")
+
+            updater(table_name, column_name, new_value, where_column, where_value)
            
-            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
+        elif option == 4:
 
-        elif option < 1 or option > 3:
+            table_namex = 'customers'
+            where_columnx = 'cust_id'
+            del_value = input ("Please enter the customer's ID number: ")
 
-            print ("Not a valid option, please try again.")
-    
+            deleter(table_namex, where_columnx, del_value)
+   
     elif option == 3:
    
-        table_name = input ("What do you want to modify?: ")
-        column_name = input("Which column would you like to modify?: ")
-        new_value = input("Please enter the new value: ")
-        where_column = input("Please select the parameter to identify the vehicle or person: ")
-        where_value = input("Please identify the vehicle or person: ")
+        print('1) Add new Vehicle')
+        print('2) View Vehicles')
+        print('3) Modify Vehicle')
+        print('4) Delete Vehicle')
 
-        updater(table_name, column_name, new_value, where_column, where_value)
+        while True:
+            try:
+                option = int(input('Please select your operation.'))
+                break
+            except:
+                print("It must be a number, from 1 to 4")
+            
+        if option == 1:
+            
+            new_vehicle()
 
-    elif option == 4:
+        elif option == 2:
+          
+            checker ("SELECT * FROM vehicles ORDER BY plate")
+            
+        elif option == 3:
 
-        table_namex = input ("What do you want to delete?: ")
-        where_columnx = input ("Choose delete criteria: ")
-        del_value = input ("Please input what to delete: ")
+            table_name = 'vehicles'
+            column_name = input("Which column would you like to modify?: ")
+            new_value = input("Please enter the new value: ")
+            where_column = 'plate'
+            where_value = input("Please enter the vehicle's plate number: ")
 
-        deleter(table_namex, where_columnx, del_value)
+            updater(table_name, column_name, new_value, where_column, where_value)
 
-rental()
+        elif option == 4:
+
+            table_namex = 'vehicles'
+            where_columnx = 'plate'
+            del_value = input ("Please enter the vehicle's plate number: ")
+
+            deleter(table_namex, where_columnx, del_value)
+
+while True:
+    rental()
+    response = input("Do you want to run the program again? (y/n): ")
+    if response.lower() != "y":
+        break
 
 # mycursor.close()
 # myconn.close()

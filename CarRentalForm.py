@@ -1,8 +1,8 @@
 import mysql.connector
+import storage
 from tabulate import tabulate
 
-myconn = mysql.connector.connect(host = "127.0.0.1", user = "root", password = "andres1", database='carrental', auth_plugin='mysql_native_password')  
-
+myconn = storage.connect()
 print(myconn)  
 
 mycursor = myconn.cursor()
@@ -45,7 +45,7 @@ def deleter(table_namex, where_columnx, del_value):
 
     print(mycursor.rowcount, "record(s) deleted.")
 
-def new_car():
+def new_vehicle():
 
     plate, brand, model, color, man_year, cat_id = input("Please enter plate number, brand, model, color, manufacture year and category: ").split()
     Car = "INSERT INTO vehicles (plate, brand, model, color, man_year, cat_id) VALUES (%s, %s, %s, %s, %s, %s)"
