@@ -13,6 +13,7 @@ def rental():
     print('1) Create registers')
     print('2) Read registers')
     print('3) Update registers')
+    print('4) Delete registers')
        
     while True:
         try:
@@ -132,12 +133,33 @@ def rental():
 
                 print(mycursor.rowcount, "record(s) updated.")
    
-    table_name = input ("What do you want to modify?: ")
-    column_name = input("Which column would you like to modify?: ")
-    new_value = input("Please enter the new value: ")
-    where_column = input("Please select the parameter to identify the vehicle or person: ")
-    where_value = input("Please identify the vehicle or person: ")
+        table_name = input ("What do you want to modify?: ")
+        column_name = input("Which column would you like to modify?: ")
+        new_value = input("Please enter the new value: ")
+        where_column = input("Please select the parameter to identify the vehicle or person: ")
+        where_value = input("Please identify the vehicle or person: ")
 
-    Updater(table_name, column_name, new_value, where_column, where_value)
+        Updater(table_name, column_name, new_value, where_column, where_value)
+
+    if option == 4:
+
+        def Deleter(table_namex, where_columnx, del_value):
+
+                mycursor = myconn.cursor()
+
+                sql = f"DELETE FROM {table_namex} WHERE {where_columnx} = %s"
+                val = (del_value,) 
+
+                mycursor.execute(sql, val)
+
+                myconn.commit()
+
+                print(mycursor.rowcount, "record(s) deleted.")
+
+        table_namex = input ("What do you want to delete?: ")
+        where_columnx = input ("Choose delete criteria: ")
+        del_value = input ("Please input what to delete: ")
+
+        Deleter(table_namex, where_columnx, del_value)
 
 rental()
