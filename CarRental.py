@@ -14,8 +14,6 @@ def rental():
     #Create the connection object   
     myconn = storage.connect()
 
-    print(myconn)  
-
     mycursor = myconn.cursor()
 
     print('1) Rentals')
@@ -56,13 +54,13 @@ def rental():
 
         elif option == 3: #Modifing reservations
 
-            table_name = 'reservations'
             column_name = input("Which column would you like to modify?: ")
             new_value = input("Please enter the new value: ")
-            where_column = 'reservation_id'
             where_value = input("Please enter the reservation's ID number: ")
 
-            updater(table_name, column_name, new_value, where_column, where_value)
+            updater('reservations', column_name, new_value, 'reservation_id', where_value)
+
+            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
         
         elif option == 4: #Deleting reservations
 
@@ -70,7 +68,9 @@ def rental():
             where_columnx = 'reservation_id'
             del_value = input ("Please enter the reservation's ID number: ")
 
-            deleter(table_namex, where_columnx, del_value)
+            deleter('reservations', 'reservation_id', del_value)
+
+            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
 
          
     elif option == 2:
@@ -97,13 +97,13 @@ def rental():
             
         elif option == 3:
 
-            table_name = 'customers'
             column_name = input("Which column would you like to modify?: ")
             new_value = input("Please enter the new value: ")
-            where_column = 'cust_id'
             where_value = input("Please enter the customers's ID number: ")
 
-            updater(table_name, column_name, new_value, where_column, where_value)
+            updater('customers', column_name, new_value, 'cust_id', where_value)
+
+            checker ("SELECT * FROM customers ORDER BY last_name")
            
         elif option == 4:
 
@@ -111,7 +111,9 @@ def rental():
             where_columnx = 'cust_id'
             del_value = input ("Please enter the customer's ID number: ")
 
-            deleter(table_namex, where_columnx, del_value)
+            deleter('customers', 'cust_id', del_value)
+
+            checker ("SELECT * FROM customers ORDER BY last_name")
    
     elif option == 3:
    
@@ -137,21 +139,21 @@ def rental():
             
         elif option == 3:
 
-            table_name = 'vehicles'
             column_name = input("Which column would you like to modify?: ")
             new_value = input("Please enter the new value: ")
-            where_column = 'plate'
             where_value = input("Please enter the vehicle's plate number: ")
 
-            updater(table_name, column_name, new_value, where_column, where_value)
+            updater('vehicles', column_name, new_value, 'plate', where_value)
+
+            checker("SELECT * FROM vehicles ORDER BY plate")
 
         elif option == 4:
 
-            table_namex = 'vehicles'
-            where_columnx = 'plate'
             del_value = input ("Please enter the vehicle's plate number: ")
 
-            deleter(table_namex, where_columnx, del_value)
+            deleter('vehicles', 'plate', del_value)
+
+            checker("SELECT * FROM vehicles ORDER BY plate")
 
 while True:
     rental()
