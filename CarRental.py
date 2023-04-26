@@ -64,15 +64,12 @@ def rental():
         
         elif option == 4: #Deleting reservations
 
-            table_namex = 'reservations'
-            where_columnx = 'reservation_id'
             del_value = input ("Please enter the reservation's ID number: ")
 
             deleter('reservations', 'reservation_id', del_value)
 
             checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
-
-         
+                
     elif option == 2:
 
         print('1) Add new Customer')
@@ -84,7 +81,7 @@ def rental():
             try:
                 option = int(input('Please select your operation.'))
                 break
-            except:
+            except:              
                 print("It must be a number, from 1 to 4")
             
         if option == 1:
@@ -107,8 +104,6 @@ def rental():
            
         elif option == 4:
 
-            table_namex = 'customers'
-            where_columnx = 'cust_id'
             del_value = input ("Please enter the customer's ID number: ")
 
             deleter('customers', 'cust_id', del_value)
@@ -159,6 +154,7 @@ while True:
     rental()
     response = input("Do you want to run the program again? (y/n): ")
     if response.lower() != "y":
+        print("Have a nice day!")
         break
 
 # mycursor.close()
