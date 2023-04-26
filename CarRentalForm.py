@@ -46,7 +46,10 @@ def deleter(table_namex, where_columnx, del_value):
 
     myconn.commit()
 
-    print(mycursor.rowcount, "record(s) deleted.")
+    if mycursor.rowcount >= 1:
+        print(mycursor.rowcount, "record(s) updated.")
+    else:
+        print("Could not update, please enter a valid ID or plate number.")
 
 def new_vehicle():
 
