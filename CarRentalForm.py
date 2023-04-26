@@ -30,7 +30,10 @@ def updater(table_name, column_name, new_value, where_column, where_value):
 
     myconn.commit()
 
-    print(mycursor.rowcount, "record(s) updated.")
+    if mycursor.rowcount >= 1:
+        print(mycursor.rowcount, "record(s) updated.")
+    else:
+        print("Could not update, please enter a valid ID or plate number.")
 
 def deleter(table_namex, where_columnx, del_value):
 
