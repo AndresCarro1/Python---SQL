@@ -1,8 +1,8 @@
 import mysql.connector
 from tabulate import tabulate
-from CarRentalForm import checker
-from CarRentalForm import updater
-from CarRentalForm import deleter
+from CarRentalForm import read
+from CarRentalForm import update
+from CarRentalForm import delete
 from CarRentalForm import new_vehicle
 from CarRentalForm import new_customer
 from CarRentalForm import new_reservation
@@ -10,11 +10,6 @@ import storage
 
 
 def rental():
-
-    #Create the connection object   
-    myconn = storage.connect()
-
-    mycursor = myconn.cursor()
 
     print('1) Rentals')
     print('2) Customers')
@@ -50,7 +45,7 @@ def rental():
 
         elif option == 2: #Viewing reservations
 
-            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
+            read ("SELECT * FROM reservations ORDER BY pick_date DESC")
 
         elif option == 3: #Modifing reservations
 
@@ -58,17 +53,17 @@ def rental():
             new_value = input("Please enter the new value: ")
             where_value = input("Please enter the reservation's ID number: ")
 
-            updater('reservations', column_name, new_value, 'reservation_id', where_value)
+            update('reservations', column_name, new_value, 'reservation_id', where_value)
 
-            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
+            read ("SELECT * FROM reservations ORDER BY pick_date DESC")
         
         elif option == 4: #Deleting reservations
 
             del_value = input ("Please enter the reservation's ID number: ")
 
-            deleter('reservations', 'reservation_id', del_value)
+            delete('reservations', 'reservation_id', del_value)
 
-            checker ("SELECT * FROM reservations ORDER BY pick_date DESC")
+            read ("SELECT * FROM reservations ORDER BY pick_date DESC")
                 
     elif option == 2:
 
@@ -90,7 +85,7 @@ def rental():
 
         elif option == 2:
           
-            checker ("SELECT * FROM customers ORDER BY last_name")
+            read ("SELECT * FROM customers ORDER BY last_name")
             
         elif option == 3:
 
@@ -98,17 +93,17 @@ def rental():
             new_value = input("Please enter the new value: ")
             where_value = input("Please enter the customers's ID number: ")
 
-            updater('customers', column_name, new_value, 'cust_id', where_value)
+            update('customers', column_name, new_value, 'cust_id', where_value)
 
-            checker ("SELECT * FROM customers ORDER BY last_name")
+            read ("SELECT * FROM customers ORDER BY last_name")
            
         elif option == 4:
 
             del_value = input ("Please enter the customer's ID number: ")
 
-            deleter('customers', 'cust_id', del_value)
+            delete('customers', 'cust_id', del_value)
 
-            checker ("SELECT * FROM customers ORDER BY last_name")
+            read ("SELECT * FROM customers ORDER BY last_name")
    
     elif option == 3:
    
@@ -130,7 +125,7 @@ def rental():
 
         elif option == 2:
           
-            checker ("SELECT * FROM vehicles ORDER BY plate")
+            read ("SELECT * FROM vehicles ORDER BY plate")
             
         elif option == 3:
 
@@ -138,17 +133,17 @@ def rental():
             new_value = input("Please enter the new value: ")
             where_value = input("Please enter the vehicle's plate number: ")
 
-            updater('vehicles', column_name, new_value, 'plate', where_value)
+            update('vehicles', column_name, new_value, 'plate', where_value)
 
-            checker("SELECT * FROM vehicles ORDER BY plate")
+            read("SELECT * FROM vehicles ORDER BY plate")
 
         elif option == 4:
 
             del_value = input ("Please enter the vehicle's plate number: ")
 
-            deleter('vehicles', 'plate', del_value)
+            delete('vehicles', 'plate', del_value)
 
-            checker("SELECT * FROM vehicles ORDER BY plate")
+            read("SELECT * FROM vehicles ORDER BY plate")
 
 while True:
     rental()
@@ -158,4 +153,4 @@ while True:
         break
 
 # mycursor.close()
-# myconn.close()
+# db_connection.close()

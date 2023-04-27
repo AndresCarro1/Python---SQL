@@ -91,7 +91,7 @@ def rental():
             except:
                 print("It must be a number, from 1 to 3")
 
-        def Checker(x):
+        def read(x):
             
             CarCheck = x
             mycursor.execute(CarCheck)
@@ -104,11 +104,11 @@ def rental():
             
             mycursor = myconn.cursor()
             
-            Checker ("SELECT * FROM vehicles ORDER BY cat_id")
+            read ("SELECT * FROM vehicles ORDER BY cat_id")
 
         if option == 2:
           
-            Checker ("SELECT * FROM customers ORDER BY last_name")
+            read ("SELECT * FROM customers ORDER BY last_name")
             
         if option == 3:
            
